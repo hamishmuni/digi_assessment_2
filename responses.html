@@ -48,6 +48,75 @@
 			</li>
 		</ul>
 	</nav>
+	<!-- Protected Page Content -->
+	<div id="protectedContent" class="container mt-5">
+		<div class="main text-center container">
+			<iframe
+				src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQJITWaQAds8qPKuu_Upyy66xqDbjD5hbTnWMMrusFOs5l3B-_XG0QLjy8tHp7GBixiy_c0AQcaEtQH/pubhtml?gid=1350677266&amp;single=true&amp;widget=true&amp;headers=false"
+				width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+		</div>
+	</div>
+
+	<!-- Login Modal -->
+	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content bg-dark">
+				<form id="loginForm" class="modal-body">
+					<h5 class="modal-title mb-3">Login Required</h5>
+					<div class="form-group">
+						<label for="username">Username</label>
+						<input type="text" id="username" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label>
+						<input type="password" id="password" class="form-control" required>
+					</div>
+					<div id="loginMsg" class="text-danger mb-2"></div>
+					<button type="submit" class="btn bg-warning">Login</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Scripts -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+		const correctUsername = "admin@factionCMP";
+		const correctPassword = "d0C_N@wang_(onn0rZ";
+
+		const content = document.getElementById("protectedContent");
+
+		// Show login modal if not logged in
+		if (localStorage.getItem("isLoggedIn") !== "true") {
+			$('#loginModal').modal({
+				backdrop: 'static',
+				keyboard: false
+			});
+			$('#loginModal').modal('show');
+		} else {
+			content.style.display = "block";
+		}
+
+		document.getElementById("loginForm").addEventListener("submit", function (e) {
+			e.preventDefault();
+			const username = document.getElementById("username").value;
+			const password = document.getElementById("password").value;
+
+			if (username === correctUsername && password === correctPassword) {
+				localStorage.setItem("isLoggedIn", "true");
+				$('#loginModal').modal('hide');
+				content.style.display = "block";
+			} else {
+				document.getElementById("loginMsg").textContent = "Invalid credentials.";
+			}
+		});
+
+		function logout() {
+			localStorage.removeItem("isLoggedIn");
+			location.reload();
+		}
+	</script>
 </body>
 <footer>
 	<div class="text-center border-top pt-3">
